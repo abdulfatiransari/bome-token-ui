@@ -6,6 +6,7 @@ import { ConnectionProvider } from "@solana/wallet-adapter-react";
 import "tailwindcss/tailwind.css";
 import "../styles/globals.css";
 import "../styles/App.css";
+import { Toaster } from "views/BurnSPLView/ui/toaster";
 
 // set custom RPC server endpoint for the final website
 // const endpoint = "https://api.devnet.solana.com";
@@ -13,14 +14,14 @@ import "../styles/App.css";
 // const endpoint = "http://127.0.0.1:8899";
 // const endpoint = "https://ssc-dao.genesysgo.net";
 // const endpoint = "https://solana-api.projectserum.com";
- const endpoint = "https://api.mainnet-beta.solana.com";
+const endpoint = "https://api.mainnet-beta.solana.com";
 //  const endpoint = "https://rpc.helius.xyz/?api-key=fe8eb42f-5a2c-4b9f-b0e6-92a8e1af948a";
 // const endpoint = "https://try-rpc.mainnet.solana.blockdaemon.tech";
 
 const WalletProvider = dynamic(
-  () => import ("../contexts/ClientWalletProvider"),
+  () => import("../contexts/ClientWalletProvider"),
   {
-    ssr: false ,
+    ssr: false,
   }
 );
 
@@ -29,6 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider>
         <Component {...pageProps} />
+        <Toaster />
       </WalletProvider>
     </ConnectionProvider>
   );
