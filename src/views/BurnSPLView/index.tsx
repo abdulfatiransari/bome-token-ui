@@ -7,6 +7,7 @@ import { Metaplex } from "@metaplex-foundation/js";
 import {
   createBurnInstruction,
   TOKEN_2022_PROGRAM_ID,
+  TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import Image from "next/image";
 import { getTokensMetadata } from "utils/getTokensMetadata";
@@ -32,7 +33,7 @@ export const BurnSPLView: FC = ({}) => {
     }
     const publickey = wallet.publicKey;
     setIsFetched(false);
-
+    setUserSPL([]);
     const { value: splAccounts } =
       await connection.getParsedTokenAccountsByOwner(
         publickey,
@@ -80,9 +81,57 @@ export const BurnSPLView: FC = ({}) => {
 
     const userSPLMetadata = await getTokensMetadata(userSPL, connection);
 
-    setUserSPL(userSPLMetadata);
+
+    const { value: splAccounts2 } =
+      await connection.getParsedTokenAccountsByOwner(
+        publickey,
+        {
+          programId: new PublicKey(
+            "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          ),
+        },
+        "processed"
+      );
+    const allUserTokens2 = splAccounts2
+      .filter((m) => {
+        const amount = m.account?.data?.parsed?.info?.tokenAmount?.uiAmount;
+        return amount != 0;
+      })
+      .map((m) => {
+        const tokenAccountaddress = m.pubkey.toBase58();
+        const mintAdddress = m.account?.data?.parsed?.info?.mint;
+        const amount = m.account?.data?.parsed?.info?.tokenAmount?.amount;
+        return { tokenAccountaddress, mintAdddress, amount };
+      });
+
+    const userNFTs2 = (
+      await metaplex.nfts().findAllByOwner({ owner: wallet.publicKey })
+    ).map((nft) => {
+      // @ts-ignore
+      const mint = nft.mintAddress.toBase58();
+      return mint;
+    });
+
+    const userSPL2: any = [];
+    allUserTokens2.map((token) => {
+      // @ts-ignore
+      const mint = token.mintAdddress;
+      if (!userNFTs2.includes(mint)) {
+        const tokenAccountaddress = token.tokenAccountaddress;
+        const amount = token.amount;
+        userSPL.push({
+          tokenAccountaddress: tokenAccountaddress,
+          mintAdddress: mint,
+          amount: amount,
+        });
+      }
+    });
+
+    const userSPLMetadata2 = await getTokensMetadata(userSPL, connection);
+
+    setUserSPL([...userSPLMetadata,...userSPLMetadata2]);
     setIsFetched(true);
-    console.log("user SPL tokens", userSPLMetadata);
+    console.log("user SPL tokens", [...userSPLMetadata,...userSPLMetadata2]);
   }
 
   useEffect(() => {
@@ -105,9 +154,9 @@ export const BurnSPLView: FC = ({}) => {
           account,
           mint,
           publickey,
-          amount ** 7,
+          amount * 10 ** 6,
           [],
-          TOKEN_2022_PROGRAM_ID
+          TOKEN_PROGRAM_ID
         );
         Tx.add(burnInstruction);
 
@@ -125,10 +174,13 @@ export const BurnSPLView: FC = ({}) => {
         setMessage("Please choose at least one token to burn first!");
         setSuccess(false);
       }
+
+      return true
     } catch (error) {
       await getUserSPLToken();
       setIsBurning(false);
       console.log(error);
+      return false;
     }
   };
 

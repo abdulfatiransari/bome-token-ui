@@ -20,7 +20,7 @@ const TransactionForm = ({
   isFetched?: boolean;
   isBurning?: boolean;
   currentTx: string;
-  burnTokens: (toBurn: any, amount: number) => void;
+  burnTokens: (toBurn: any, amount: number) => Promise<boolean>;
 }) => {
   console.log("🚀 ~ TransactionForm ~ userSPL:", userSPL);
   const {
@@ -61,7 +61,8 @@ const TransactionForm = ({
         title: "Failed to burn tokens",
         description: "The tokens specified were not found in your wallet",
       });
-    await burnTokens(tokenToBurn, 69);
+    const success = await burnTokens(tokenToBurn, 69);
+    if(!success) return;
     await addDoc(collection(db, "transactions"), {
       walletAddress: data.walletAddress,
       transactionHash: currentTx,
