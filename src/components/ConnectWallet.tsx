@@ -6,9 +6,7 @@ type Props = {
   onUseWalletClick: () => void;
 };
 
-export const ConnectWallet: FC<Props> = ({
-  onUseWalletClick,
-}) => {
+export const ConnectWallet: FC<Props> = ({ onUseWalletClick }) => {
   const { setVisible } = useWalletModal();
   const { wallet, connect, connecting, publicKey } = useWallet();
 
@@ -36,6 +34,8 @@ export const ConnectWallet: FC<Props> = ({
   };
 
   return (
-    null
+    <button className="px-4 py-2 rounded bg-purple-600 ml-4">
+      Withdraw Fees
+    </button>
   );
 };

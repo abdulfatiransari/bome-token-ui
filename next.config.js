@@ -53,6 +53,18 @@ const nextConfig = {
     }
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        hostname: "**",
+        protocol: "https"
+      },
+      {
+        hostname: "**",
+        protocol: "http"
+      },
+    ]
+  }
 };
 
 module.exports = withPlugins(plugins, nextConfig);
