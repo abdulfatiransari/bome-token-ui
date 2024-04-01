@@ -94,7 +94,7 @@ const TransactionForm = ({
             required: "Please enter ETH address",
           })}
           type="text"
-          placeholder="Wallet address"
+          placeholder="ETH Wallet address"
           className={`border ${
             errors.walletAddress ? "border-red-500" : "border-gray-400"
           } rounded-lg p-2 placeholder:text-sm text-sm`}
@@ -107,12 +107,6 @@ const TransactionForm = ({
 
         <div className="flex space-x-3 w-full">
           <Button
-            type="reset"
-            className="p-2 bg-slate-500 rounded-md text-sm hover:bg-slate-600 text-white font-semibold"
-          >
-            Reset
-          </Button>
-          <Button
             disabled={isSubmitting || isBurning}
             type="submit"
             className="p-2 bg-slate-500 rounded-md text-sm hover:bg-slate-600 text-white"
@@ -124,12 +118,6 @@ const TransactionForm = ({
           </Button>
         </div>
       </form>
-      <Button
-        onClick={downloadDataAsCSV}
-        className="w-full text-sm bg-slate-600 rounded-md p-2 text-white hover:bg-slate-700"
-      >
-        Download data as CSV
-      </Button>
     </>
   );
 };
