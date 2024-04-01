@@ -6,6 +6,8 @@ type Props = {
   onUseWalletClick: () => void;
 };
 
+//dummy
+
 export const ConnectWallet: FC<Props> = ({ onUseWalletClick }) => {
   const { setVisible } = useWalletModal();
   const { wallet, connect, connecting, publicKey } = useWallet();
