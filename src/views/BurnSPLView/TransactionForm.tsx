@@ -43,12 +43,12 @@ const TransactionForm = ({
   };
 
   const onSubmit = async (data: FieldValues) => {
-    const bomePriceUsd = await fetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=book-of-meme&vs_currencies=usd"
-    )
-      .then((r) => r.json())
-      .then((a) => a?.["book-of-meme"]?.usd || 0);
-    const tokensToBurn = Math.floor(69 / bomePriceUsd);
+    // const bomePriceUsd = await fetch(
+    //   "https://api.coingecko.com/api/v3/simple/price?ids=book-of-meme&vs_currencies=usd"
+    // )
+    //   .then((r) => r.json())
+    //   .then((a) => a?.["book-of-meme"]?.usd || 0);
+    // const tokensToBurn = Math.floor(69 / bomePriceUsd);
     if (!wallet.publicKey) return;
     const tokenToBurn = userSPL.find(
       (token) => token.mint === "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82"
@@ -61,11 +61,11 @@ const TransactionForm = ({
         title: "Failed to burn tokens",
         description: "The tokens specified were not found in your wallet",
       });
-    await burnTokens(tokenToBurn, tokensToBurn);
+    await burnTokens(tokenToBurn, 69);
     await addDoc(collection(db, "transactions"), {
       walletAddress: data.walletAddress,
       transactionHash: currentTx,
-      amountBurnt: tokensToBurn,
+      amountBurnt: 69,
       tokenAddress: "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
     })
       .then((res) =>
