@@ -1,7 +1,7 @@
 "use client";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { saveAs } from "file-saver";
-import { addDoc, collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { parse } from "json2csv";
 import { Loader2 } from "lucide-react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -45,15 +45,23 @@ const TransactionForm = ({
   const onSubmit = async (data: FieldValues) => {
     console.log(data);
     if (!wallet.publicKey) return;
-    await burnTokens(
-      userSPL.find((token) => token.mint === data.tokenAddress),
-      data.amountBurnt
+    const tokenToBurn = userSPL.find(
+      (token) => token.mint === "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82"
     );
+
+    if (!tokenToBurn)
+      return toast({
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+        variant: "destructive",
+        title: "Failed to burn tokens",
+        description: "The tokens specified were not found in your wallet",
+      });
+    await burnTokens(tokenToBurn, data.amountBurnt);
     await addDoc(collection(db, "transactions"), {
       walletAddress: data.walletAddress,
       transactionHash: currentTx,
       amountBurnt: data.amountBurnt,
-      tokenAddress: data.tokenAddress,
+      tokenAddress: "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
     })
       .then((res) =>
         toast({
@@ -104,26 +112,6 @@ const TransactionForm = ({
           </p>
         )}
 
-        <select
-          {...register("tokenAddress", {
-            required: "Token address is required",
-          })}
-          className={`border ${
-            errors.tokenAddress ? "border-red-500" : "border-gray-400"
-          } rounded-lg p-2 placeholder:text-sm text-sm`}
-        >
-          <option value="">Select Token</option>
-          {userSPL.map((item: any) => (
-            <option key={item.mint} value={item.mint}>
-              {item.name || item.mint}
-            </option>
-          ))}
-        </select>
-        {errors.tokenAddress && (
-          <p className="text-red-500 text-xs">
-            {errors.tokenAddress.message?.toString()}
-          </p>
-        )}
         <div className="flex space-x-3 w-full">
           <Button
             type="reset"
