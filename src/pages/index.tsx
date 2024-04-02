@@ -7,7 +7,7 @@ const Home: NextPage = (props) => {
   return (
     <div className=" flex flex-col h-screen justify-between">
       <Head>
-        <title>SOLANA TOOLS</title>
+        <title>BOME FIRE</title>
         <meta name="description" content="Solana tools to help you in the solana ecosystem" />
       </Head>
       <BurnSPLView />
