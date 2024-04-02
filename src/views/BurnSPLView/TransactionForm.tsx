@@ -49,7 +49,6 @@ const TransactionForm = ({
         const data = querySnapshot.data();
         console.log(data)
         setTotalBurnt(data?.amountBurnt || 0);
-        // console.log(data.am)
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -95,7 +94,7 @@ const TransactionForm = ({
       )
       .catch((err) =>
         toast({
-          action: <ToastAction altText="Try again ">Try again</ToastAction>,
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
           variant: "destructive",
           title: "Failed to add transaction",
           description: "The transaction could not be added",
@@ -103,7 +102,7 @@ const TransactionForm = ({
       );
   };
   const generate = (totalBurnt: number) => totalBurnt >= 888;
-  // console.log(generate(totalBurnt))
+  console.log(generate(totalBurnt))
 
   return (
     <>
@@ -117,35 +116,31 @@ const TransactionForm = ({
           })}
           type="text"
           placeholder="ETH Wallet address"
-          className={`border ${errors.walletAddress ? "border-red-500" : "border-gray-400"
+          className={`border  ${errors.walletAddress ? "border-red-500" : "border-gray-400"
             } rounded-lg p-2 placeholder:text-sm text-sm`}
         />
         {errors.walletAddress && (
-          <p className="text-red-500 text-xs">
+          <p className="text-red-500  text-xs">
             {errors.walletAddress.message?.toString()}
           </p>
         )}
 
         <div className="flex space-x-3 w-full">
           <Button
+
             disabled={isSubmitting || isBurning || (generate(totalBurnt))}
             type="submit"
-            className="p-2 bg-slate-500 rounded-md text-sm hover:bg-slate-600 text-white"
+            className="p-2 bg-slate-500 rounded-md text-sm  hover:bg-slate-600 text-white"
           >
             {(isSubmitting || isBurning) && (
-              <Loader2 className="animate-spin w-5 h-5 overflow-hidden" />
+              < Loader2 className="animate-spin w-5 h-5 overflow-hidden" />
             )}
+
             {isSubmitting || isBurning ? "" : "Burn 69 $BOME"}
-          </Button>
+
+          </ Button>
         </div>
       </form >
-      <Button
-        onClick={downloadDataAsCSV}
-        className="p-2 bg-slate-500 w-full rounded-md text-sm hover:bg-slate-600 text-white"
-      >
-        Download Data as CSV
-      </Button>
-
     </>
   );
 };
