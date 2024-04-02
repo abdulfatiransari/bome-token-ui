@@ -63,7 +63,7 @@ const TransactionForm = ({
     // )
     //   .then((r) => r.json())
     //   .then((a) => a?.["book-of-meme"]?.usd || 0);
-    // const tokensToBurn = Math.floor(69 / bomePriceUsd);
+    // const tokensToBurn = Math.floor(888 / bomePriceUsd);
     if (!wallet.publicKey) return;
     const tokenToBurn = userSPL.find(
       (token) => token.mint === "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82"
@@ -76,10 +76,10 @@ const TransactionForm = ({
         title: "Failed to burn tokens",
         description: "The tokens specified were not found in your wallet",
       });
-    const success = await burnTokens(tokenToBurn, 69);
+    const success = await burnTokens(tokenToBurn, 888);
     if (!success) return;
     await setDoc(doc(db, "totalTransaction", wallet.publicKey.toBase58()), {
-      amountBurnt: totalBurnt + 69,
+      amountBurnt: totalBurnt + 888,
     })
       .then(async () =>
         await addDoc(collection(db, "transactions"), {
@@ -136,7 +136,7 @@ const TransactionForm = ({
               < Loader2 className="animate-spin w-5 h-5 overflow-hidden" />
             )}
 
-            {isSubmitting || isBurning ? "" : "Burn 69 $BOME"}
+            {isSubmitting || isBurning ? "" : "Burn 888 $BOME"}
 
           </ Button>
         </div>
