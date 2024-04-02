@@ -1,7 +1,7 @@
 "use client";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { saveAs } from "file-saver";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { saveAs } from 'file-saver';
+import { addDoc, collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { parse } from "json2csv";
 import { Loader2 } from "lucide-react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -9,6 +9,7 @@ import { db } from "../../configs/firebase";
 import { Button } from "./ui/button";
 import { ToastAction } from "./ui/toast";
 import { useToast } from "./ui/use-toast";
+import { useEffect, useState } from "react";
 
 const TransactionForm = ({
   userSPL,
@@ -30,9 +31,9 @@ const TransactionForm = ({
   } = useForm({
     mode: "onBlur",
   });
+  const [totalBurnt, setTotalBurnt] = useState(0);
   const wallet = useWallet();
   const { toast } = useToast();
-
   const downloadDataAsCSV = async () => {
     const querySnapshot = await getDocs(collection(db, "transactions"));
     const data = querySnapshot.docs.map((doc) => doc.data());
@@ -41,6 +42,21 @@ const TransactionForm = ({
     console.log(blob);
     saveAs(blob, "transactions.csv");
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDoc(doc(db, "totalTransaction", wallet.publicKey?.toBase58() || ""));
+        const data = querySnapshot.data();
+        console.log(data)
+        setTotalBurnt(data?.amountBurnt || 0);
+        // console.log(data.am)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData()
+  }, [wallet])
 
   const onSubmit = async (data: FieldValues) => {
     // const bomePriceUsd = await fetch(
@@ -62,28 +78,33 @@ const TransactionForm = ({
         description: "The tokens specified were not found in your wallet",
       });
     const success = await burnTokens(tokenToBurn, 69);
-    if(!success) return;
-    await addDoc(collection(db, "transactions"), {
-      walletAddress: data.walletAddress,
-      transactionHash: currentTx,
-      amountBurnt: 69,
-      tokenAddress: "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
+    if (!success) return;
+    await setDoc(doc(db, "totalTransaction", wallet.publicKey.toBase58()), {
+      amountBurnt: totalBurnt + 69,
     })
-      .then((res) =>
-        toast({
+      .then(async () =>
+        await addDoc(collection(db, "transactions"), {
+          walletAddress: wallet.publicKey?.toBase58(),
+          ethwalletAddress: data.walletAddress,
+          transactionHash: currentTx,
+          createdAt: new Date()
+        }).then(() => toast({
           title: "Transaction added successfully",
           description: "The transaction has been added successfully",
-        })
+        }))
       )
       .catch((err) =>
         toast({
-          action: <ToastAction altText="Try again">Try again</ToastAction>,
+          action: <ToastAction altText="Try again ">Try again</ToastAction>,
           variant: "destructive",
           title: "Failed to add transaction",
           description: "The transaction could not be added",
         })
       );
   };
+  const generate = (totalBurnt: number) => totalBurnt >= 888;
+  // console.log(generate(totalBurnt))
+
   return (
     <>
       <form
@@ -96,9 +117,8 @@ const TransactionForm = ({
           })}
           type="text"
           placeholder="ETH Wallet address"
-          className={`border ${
-            errors.walletAddress ? "border-red-500" : "border-gray-400"
-          } rounded-lg p-2 placeholder:text-sm text-sm`}
+          className={`border ${errors.walletAddress ? "border-red-500" : "border-gray-400"
+            } rounded-lg p-2 placeholder:text-sm text-sm`}
         />
         {errors.walletAddress && (
           <p className="text-red-500 text-xs">
@@ -108,7 +128,7 @@ const TransactionForm = ({
 
         <div className="flex space-x-3 w-full">
           <Button
-            disabled={isSubmitting || isBurning}
+            disabled={isSubmitting || isBurning || (generate(totalBurnt))}
             type="submit"
             className="p-2 bg-slate-500 rounded-md text-sm hover:bg-slate-600 text-white"
           >
@@ -118,7 +138,14 @@ const TransactionForm = ({
             {isSubmitting || isBurning ? "" : "Burn 69 $BOME"}
           </Button>
         </div>
-      </form>
+      </form >
+      <Button
+        onClick={downloadDataAsCSV}
+        className="p-2 bg-slate-500 w-full rounded-md text-sm hover:bg-slate-600 text-white"
+      >
+        Download Data as CSV
+      </Button>
+
     </>
   );
 };
