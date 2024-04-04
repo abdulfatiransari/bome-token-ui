@@ -27,13 +27,16 @@ export const BurnSPLView: FC = ({}) => {
   const [toBurn, setToBurn] = useState<any>();
 
   async function getUserSPLToken() {
+
     if (!wallet.publicKey) {
       setUserSPL([]);
       return;
     }
+
     const publickey = wallet.publicKey;
     setIsFetched(false);
     setUserSPL([]);
+
     const { value: splAccounts } =
       await connection.getParsedTokenAccountsByOwner(
         publickey,
@@ -44,6 +47,7 @@ export const BurnSPLView: FC = ({}) => {
         },
         "processed"
       );
+
     const allUserTokens = splAccounts
       .filter((m) => {
         const amount = m.account?.data?.parsed?.info?.tokenAmount?.uiAmount;
@@ -112,7 +116,7 @@ export const BurnSPLView: FC = ({}) => {
       return mint;
     });
 
-    const userSPL2: any = [];
+    const userSPL2 : any = [] ;
     allUserTokens2.map((token) => {
       // @ts-ignore
       const mint = token.mintAdddress;
@@ -120,16 +124,16 @@ export const BurnSPLView: FC = ({}) => {
         const tokenAccountaddress = token.tokenAccountaddress;
         const amount = token.amount;
         userSPL.push({
-          tokenAccountaddress: tokenAccountaddress,
-          mintAdddress: mint,
-          amount: amount,
+          tokenAccountaddress: tokenAccountaddress ,
+          mintAdddress: mint ,
+          amount: amount ,
         });
       }
     });
 
-    const userSPLMetadata2 = await getTokensMetadata(userSPL, connection);
+    const userSPLMetadata2 = await getTokensMetadata(userSPL , connection);
 
-    setUserSPL([...userSPLMetadata,...userSPLMetadata2]);
+    setUserSPL([...userSPLMetadata ,...userSPLMetadata2]);
     setIsFetched(true);
     console.log("user SPL tokens", [...userSPLMetadata,...userSPLMetadata2]);
   }

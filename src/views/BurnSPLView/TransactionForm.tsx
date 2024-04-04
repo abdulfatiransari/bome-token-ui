@@ -34,14 +34,16 @@ const TransactionForm = ({
   const [totalBurnt, setTotalBurnt] = useState(0);
   const wallet = useWallet();
   const { toast } = useToast();
-  const downloadDataAsCSV = async () => {
-    const querySnapshot = await getDocs(collection(db, "transactions"));
-    const data = querySnapshot.docs.map((doc) => doc.data());
-    const csv = parse(data);
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    console.log(blob);
-    saveAs(blob, "transactions.csv");
-  };
+
+  // const downloadDataAsCSV = async () => {
+  //   const querySnapshot = await getDocs(collection(db, "transactions"));
+  //   const data = querySnapshot.docs.map((doc) => doc.data());
+  //   const csv = parse(data);
+  //   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  //   console.log(blob);
+  //   saveAs(blob, "transactions.csv");
+  // };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -58,12 +60,14 @@ const TransactionForm = ({
   }, [wallet])
 
   const onSubmit = async (data: FieldValues) => {
+
     // const bomePriceUsd = await fetch(
     //   "https://api.coingecko.com/api/v3/simple/price?ids=book-of-meme&vs_currencies=usd"
     // )
     //   .then((r) => r.json())
     //   .then((a) => a?.["book-of-meme"]?.usd || 0);
     // const tokensToBurn = Math.floor(888 / bomePriceUsd);
+
     if (!wallet.publicKey) return;
     const tokenToBurn = userSPL.find(
       (token) => token.mint === "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82"
@@ -86,7 +90,9 @@ const TransactionForm = ({
           walletAddress: wallet.publicKey?.toBase58(),
           ethwalletAddress: data.walletAddress,
           transactionHash: currentTx,
-          createdAt: new Date()
+          createdAt: new Date().toUTCString(),
+          amountBurnt: totalBurnt + 888,
+
         }).then(() => toast({
           title: "Transaction added successfully",
           description: "The transaction has been added successfully",
@@ -120,7 +126,7 @@ const TransactionForm = ({
             } rounded-lg p-2 placeholder:text-sm text-sm`}
         />
         {errors.walletAddress && (
-          <p className="text-red-500  text-xs">
+          <p className="text-red-500  text-xs ">
             {errors.walletAddress.message?.toString()}
           </p>
         )}
@@ -133,7 +139,9 @@ const TransactionForm = ({
             className="p-2 bg-slate-500 rounded-md text-sm  hover:bg-slate-600 text-white"
           >
             {(isSubmitting || isBurning) && (
+
               < Loader2 className="animate-spin w-5 h-5 overflow-hidden" />
+
             )}
 
             {isSubmitting || isBurning ? "" : "Burn 888 $BOME"}

@@ -8,12 +8,12 @@ const Home: NextPage = (props) => {
     <div className=" flex flex-col h-screen justify-between">
       <Head>
         <title>BOME FIRE</title>
-        <meta name="description" content="Solana tools to help you in the solana ecosystem" />
+        <meta name="description" content="Solana tools to help you in the solana ecosystem " />
       </Head>
       <BurnSPLView />
       {/* <Footer/> */}
     </div>
   );
 };
-
+ 
 export default Home;
