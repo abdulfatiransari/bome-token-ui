@@ -16,18 +16,11 @@ const downloadcsv = () => {
     };
     return (
         <div className='h-screen w-screen overflow-hidden relative flex justify-center items-center bg-[#F2F6FF]'>
-
             <Button
-
                 onClick={downloadDataAsCSV}
-
                 className="p-2 bg-slate-500  rounded-md text-sm hover:bg-slate-600 text-white">
-
                 Download Data as CSV
-
             </Button>
-
-
         </div>
     )
 }

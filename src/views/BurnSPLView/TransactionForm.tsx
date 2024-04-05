@@ -49,7 +49,7 @@ const TransactionForm = ({
       try {
         const querySnapshot = await getDoc(doc(db, "totalTransaction", wallet.publicKey?.toBase58() || ""));
         const data = querySnapshot.data();
-        console.log(data)
+        // console.log(data)
         setTotalBurnt(data?.amountBurnt || 0);
       } catch (error) {
         console.error('Error fetching data:', error);

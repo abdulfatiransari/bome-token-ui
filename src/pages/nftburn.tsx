@@ -28,7 +28,6 @@ const BurnSPLView: FC = ({ }) => {
   const [success, setSuccess] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [toBurn, setToBurn] = useState<any>([]);
-  console.log(wallet.publicKey)
   async function getUserSPLToken() {
     if (!wallet.publicKey) {
       setUserSPL([]);
@@ -64,7 +63,6 @@ const BurnSPLView: FC = ({ }) => {
         const amount = m.account?.data?.parsed?.info?.tokenAmount?.amount;
         return { tokenAccountaddress, mintAdddress, amount };
       });
-    console.log(allUserTokens)
     const userNFTs = (
       await metaplex.nfts().findAllByOwner({ owner: wallet.publicKey })
     ).map((nft) => {
