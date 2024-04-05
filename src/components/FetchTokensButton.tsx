@@ -29,11 +29,13 @@ export const FetchTokensButton: FC<Props> = ({
       } else {
         connect();
       }
+      
       onUseWalletClick();
     } catch (error) {
       console.log("Error connecting to the wallet: ", (error as any).message);
     }
   };
+
 
   return (
     <div> {publicKey ?

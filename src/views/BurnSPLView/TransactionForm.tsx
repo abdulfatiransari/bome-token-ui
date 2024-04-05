@@ -92,10 +92,9 @@ const TransactionForm = ({
           transactionHash: currentTx,
           createdAt: new Date().toUTCString(),
           amountBurnt: totalBurnt + 888,
-
         }).then(() => toast({
           title: "Transaction added successfully",
-          description: "The transaction has been added successfully",
+          description: "The transaction has been added successfully ",
         }))
       )
       .catch((err) =>
@@ -133,7 +132,6 @@ const TransactionForm = ({
 
         <div className="flex space-x-3 w-full">
           <Button
-
             disabled={isSubmitting || isBurning || (generate(totalBurnt))}
             type="submit"
             className="p-2 bg-slate-500 rounded-md text-sm  hover:bg-slate-600 text-white"
