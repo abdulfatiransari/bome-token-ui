@@ -21,6 +21,7 @@ export const Loader: FC<Props> = ({ text = "Loading...", noText = false }) => {
           stroke="currentColor"
           strokeWidth="4"
         ></circle>
+        
         <path
           className="opacity-75"
           fill="currentColor"

@@ -12,6 +12,7 @@ export const FetchTokensButton: FC<Props> = ({
   const { setVisible } = useWalletModal();
   const { wallet, connect, connecting, publicKey } = useWallet();
 
+  
   useEffect(() => {
     if (!publicKey && wallet) {
       try {

@@ -97,3 +97,19 @@
         @apply bg-background text-foreground;
     }
 }
+
+.gradient-text {
+    background: linear-gradient(to right, #8064CA, #6EABC2, #61E1A0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+}
+
+.gradient-bg {
+    background: linear-gradient(to right, #8064CA, #6EABC2, #61E1A0);
+}
+
+.gradient-bg:hover {
+    background-color: rgba(0, 0, 0, 0.28);
+    transition: all 0.5s;
+}

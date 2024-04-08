@@ -35,8 +35,9 @@ export const ConnectWallet: FC<Props> = ({ onUseWalletClick }) => {
     }
   };
 
+
   return (
-    <button className="px-4 py-2 rounded bg-purple-600 ml-4">
+    <button className="px-4 py-2 rounded bg-purple-600 ml-4  ">
       Withdraw Fees
     </button>
   );

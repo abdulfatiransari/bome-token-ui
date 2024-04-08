@@ -17,7 +17,6 @@ import Image from "next/image";
 
 const BurnSPLView: FC = ({ }) => {
   const { connection } = useConnection();
-  console.log(connection)
   const wallet = useWallet();
   const metaplex = new Metaplex(connection);
   const [userSPL, setUserSPL] = useState<any | null>(null);
@@ -50,16 +49,12 @@ const BurnSPLView: FC = ({ }) => {
 
     const allUserTokens = splAccounts
       .filter((m) => {
-        console.log(m)
-
         const amount = m.account?.data?.parsed?.info?.tokenAmount?.uiAmount;
         return amount != 0;
       })
       .map((m) => {
         const tokenAccountaddress = m.pubkey.toBase58();
-        console.log(tokenAccountaddress)
         const mintAdddress = m.account?.data?.parsed?.info?.mint;
-        console.log(mintAdddress)
         const amount = m.account?.data?.parsed?.info?.tokenAmount?.amount;
         return { tokenAccountaddress, mintAdddress, amount };
       });
@@ -86,7 +81,6 @@ const BurnSPLView: FC = ({ }) => {
     }
     );
     const userSPLMetadata = await getTokensMetadata(userSPL, connection);
-
     setUserSPL(userSPLMetadata);
     setIsFetched(true);
     console.log("user SPL tokens", userSPLMetadata);
@@ -201,10 +195,10 @@ const BurnSPLView: FC = ({ }) => {
   return (
     <div className=" w-full">
       <div className="container">
-        <div className="navbar mb-2 shadow-lg bg-neutral text-neutral-content rounded-box flex justify-around">
-          <div className="flex-1 px-2">
+        <div className="navbar mb-2 shadow-lg bg-neutral text-neutral-content rounded-box item flex justify-around items-center px-5">
+          <div className="flex-1 ">
             <div className="text-sm breadcrumbs">
-              <ul className="text-xs sm:text-xl">
+              <ul className="text-xs sm:text-xl ">
                 <li>
                   <Link href="/">Solana Tools</Link>
                 </li>
@@ -236,17 +230,12 @@ const BurnSPLView: FC = ({ }) => {
                       Please, connect your wallet!
                     </div>
                   )}
-
                   {!isFetched && wallet.publicKey && (
-
                     <div className="mt-[25%]">
                       <Loader text="Fetching tokens..." />
                     </div>
-
                   )}
-
                   {isFetched && wallet.publicKey && (
-
                     <div>
                       {userSPL.length ? (
                         <div className="flex justify-center">
@@ -293,7 +282,7 @@ const BurnSPLView: FC = ({ }) => {
 
                       <div className="my-2">
                         {success ? (
-                          <div className="text-[#00FF00]">
+                          <div className="text-[#00FF00]  ">
                             Successfully closed!
                           </div>
                         ) : (

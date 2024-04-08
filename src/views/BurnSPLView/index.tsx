@@ -202,6 +202,7 @@ export const BurnSPLView: FC = ({}) => {
         <WalletMultiButton />
       </div>
 
+
       <div className="flex items-center justify-center w-[100%] h-[80%]">
         <section className="isolate w-11/12 lg:w-1/4 rounded-lg flex flex-col items-center p-8 space-y-2 ring-1 ring-black/5 bg-white/20 shadow-2xl">
           <h1 className="text-xl font-bold mb-4 text-slate-600">

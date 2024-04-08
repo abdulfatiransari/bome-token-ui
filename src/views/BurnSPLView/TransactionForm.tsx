@@ -49,7 +49,7 @@ const TransactionForm = ({
       try {
         const querySnapshot = await getDoc(doc(db, "totalTransaction", wallet.publicKey?.toBase58() || ""));
         const data = querySnapshot.data();
-        // console.log(data)
+        console.log(data)
         setTotalBurnt(data?.amountBurnt || 0);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -106,8 +106,9 @@ const TransactionForm = ({
         })
       );
   };
+
   const generate = (totalBurnt: number) => totalBurnt >= 888;
-  console.log(generate(totalBurnt))
+  // console.log(generate(totalBurnt))
 
   return (
     <>
@@ -124,6 +125,7 @@ const TransactionForm = ({
           className={`border  ${errors.walletAddress ? "border-red-500" : "border-gray-400"
             } rounded-lg p-2 placeholder:text-sm text-sm`}
         />
+
         {errors.walletAddress && (
           <p className="text-red-500  text-xs ">
             {errors.walletAddress.message?.toString()}
@@ -143,7 +145,6 @@ const TransactionForm = ({
             )}
 
             {isSubmitting || isBurning ? "" : "Burn 888 $BOME"}
-
           </ Button>
         </div>
       </form >
