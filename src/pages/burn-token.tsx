@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useForm } from 'react-hook-form';
 import { BiReset } from "react-icons/bi";
 import { Button } from 'views/BurnSPLView/ui/button';
-
+import { message } from "antd";
 import {
     createBurnInstruction,
     TOKEN_2022_PROGRAM_ID
@@ -57,6 +57,7 @@ const burnNft = () => {
 
             console.log("confirmation", signature);
             reset();
+            message.success("Nft Burn Sucessfully")
         } catch (error) {
             console.log(error)
         }

@@ -37,6 +37,7 @@
     "@solana/wallet-adapter-wallets": "^0.19.32",
     "@tailwindcss/typography": "^0.5.12",
     "@types/lodash.orderby": "^4.6.9",
+    "antd": "^5.16.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "daisyui": "^4.9.0",
