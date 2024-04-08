@@ -19,6 +19,7 @@ const burnNft = () => {
         register,
         handleSubmit,
         formState: { errors, isSubmitting },
+        reset,
     } = useForm({
         mode: "onBlur",
     });
@@ -30,13 +31,13 @@ const burnNft = () => {
 
     const BurnTokens = async (values: any) => {
         const publickey = wallet.publicKey;
-        console.log(publickey)
         try {
             let Tx = new Transaction();
             console.log(values)
             const account = new PublicKey(values.tokenAccount);
             const mint = new PublicKey(values.tokenAddress);
             const amount = Number(values.amounts) * 10 ** Number(values.decimals);
+            console.log(amount)
             const burnInstruction = createBurnInstruction(
                 account,
                 mint,
@@ -55,6 +56,7 @@ const burnNft = () => {
             );
 
             console.log("confirmation", signature);
+            reset();
         } catch (error) {
             console.log(error)
         }
