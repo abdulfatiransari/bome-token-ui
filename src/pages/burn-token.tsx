@@ -204,7 +204,7 @@ const burnNft = () => {
                         )}
                         {!isFetched && wallet.publicKey && (
                             <div className=" w-full flex justify-center ">
-                                <Loader color={"white"} className="mx-2" />
+                                <Loader color={"white"} className="mx-2 circle" />
                                 <div className="text-white mx-2">Fetching Tokens....</div>
                             </div>
                         )}
@@ -230,7 +230,6 @@ const burnNft = () => {
                                                     <option key={`token_${index}`} value={token.mint}>{token.name}</option>
                                                 ))}
                                             </select>
-
                                         </div>
                                     </div>
                                 )}
