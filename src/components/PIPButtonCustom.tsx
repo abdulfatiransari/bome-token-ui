@@ -37,7 +37,6 @@ export const PIPButtonCustom: FC = ({}) => {
           </svg>
         </div>
       </button>
-
       {isClicked && (
         <div
           tabIndex={-1}

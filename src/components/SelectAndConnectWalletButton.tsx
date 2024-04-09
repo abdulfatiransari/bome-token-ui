@@ -7,7 +7,9 @@ type Props = {
 };
 
 export const SelectAndConnectWalletButton: FC<Props> = ({
+
   onUseWalletClick,
+
 }) => {
   const { setVisible } = useWalletModal();
   const { wallet, connect, connecting, publicKey } = useWallet();
@@ -21,7 +23,6 @@ export const SelectAndConnectWalletButton: FC<Props> = ({
       }
     }
   }, [wallet]);
-
   const handleWalletClick = () => {
     try {
       if (!wallet) {
@@ -34,7 +35,6 @@ export const SelectAndConnectWalletButton: FC<Props> = ({
       console.log("Error connecting to the wallet: ", (error as any).message);
     }
   };
-
   return (
     <div> {publicKey ?
       <button
@@ -44,6 +44,6 @@ export const SelectAndConnectWalletButton: FC<Props> = ({
       >
         <div>Show NFTs</div>
       </button> : null}
-    </div> 
+    </div>
   );
 };

@@ -12,7 +12,7 @@ export const FetchTokensButton: FC<Props> = ({
   const { setVisible } = useWalletModal();
   const { wallet, connect, connecting, publicKey } = useWallet();
 
-  
+
   useEffect(() => {
     if (!publicKey && wallet) {
       try {
@@ -23,6 +23,7 @@ export const FetchTokensButton: FC<Props> = ({
     }
   }, [wallet]);
 
+  
   const handleWalletClick = () => {
     try {
       if (!wallet) {
@@ -30,7 +31,6 @@ export const FetchTokensButton: FC<Props> = ({
       } else {
         connect();
       }
-      
       onUseWalletClick();
     } catch (error) {
       console.log("Error connecting to the wallet: ", (error as any).message);
@@ -47,6 +47,6 @@ export const FetchTokensButton: FC<Props> = ({
       >
         <div>Show tokens</div>
       </button> : null}
-    </div> 
+    </div>
   );
 };

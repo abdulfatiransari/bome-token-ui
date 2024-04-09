@@ -7,6 +7,8 @@ export const getTokensMetadata = async (
     tokenAccountaddress: string;
     mintAdddress: any;
     amount?: number;
+    decimal?: number;
+    tokenProgram: PublicKey
   }[],
   connection: Connection
 ) => {
@@ -66,7 +68,7 @@ export const getTokensMetadata = async (
           name = token.name;
         }
       }
-      return { name, logoURI, tokenAccount, mint, amount };
+      return { name, logoURI, tokenAccount, mint, amount, decimal: token.decimal, tokenProgram: token.tokenProgram };
     })
   );
   tokensMetadata.sort(function (a, b) {
