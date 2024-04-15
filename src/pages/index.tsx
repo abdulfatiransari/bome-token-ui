@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
@@ -13,10 +12,8 @@ import {
     TOKEN_2022_PROGRAM_ID,
     TOKEN_PROGRAM_ID
 } from "@solana/spl-token";
-import Image from "next/image";
-import stepBurn from '../../public/assets/images/steps-burn.png';
 import { Metaplex } from "@metaplex-foundation/js";
-import { Box, Heading, Loader } from "lucide-react";
+import { Loader } from "lucide-react";
 import Link from "next/link";
 import Head from "next/head";
 
@@ -123,9 +120,9 @@ function burntoken() {
             setIsBurning(true);
             let Tx = new Transaction();
             const token = userSPL.find((a: any) => a.mint === values.tokenMint)
-            console.log(userSPL)
-            console.log(token)
-            console.log(values)
+            // console.log(userSPL)
+            // console.log(token)
+            // console.log(values)
             const account = new PublicKey(token.tokenAccount);
             const mint = new PublicKey(values.tokenMint);
             const amount = Number(values.amounts) * 10 ** Number(token.decimal);
@@ -158,10 +155,9 @@ function burntoken() {
         }
     };
     return (
-        // bg-[#121212]
         <>
             <Head>
-                <title>BOME FIRE</title>
+                <title>FRENDS ON FIRE</title>
                 <meta name="description" content="Solana tools to help you in the solana ecosystem " />
             </Head>
             <div className=' bg-[#F2F6FF] h-screen '>
@@ -170,22 +166,21 @@ function burntoken() {
                         <WalletMultiButton className="btn btn-ghost" />
                     </div>
                 </div>
-
                 <div className='mx-auto container flex flex-col justify-around items-center h-[80%] relative'>
                     {signature && (
-                        <div className="flex justify-between items-center w-full max-w-[300px] p-4 ring-1 ring-black/5 bg-white shadow-lg rounded-xl mx-auto   ">
-                            <p className="text-sm text-[#67768c8c] font-semibold">
-                                Transaction Success
-                            </p>
-                            <div className="flex  justify-start items-start">
+                        <div className="flex justify-between items-center w-full max-w-[300px] p-4 ring-1 ring-black/5 bg-white shadow-lg rounded-xl mx-auto">
+                            <p className="text-sm text-[#67768c8c] font-semibold">Transaction Success</p>
+                            <div className="flex justify-start items-start">
                                 {/* <Link href={`https://explorer.solana.com/tx/${signature}?cluster=devnet`} className="text-[#64748B] text-sm underline hover:text-[#67768c8c]" target="_blank">view on explorer</Link> */}
-                                <Link href={`https://explorer.solana.com/tx/${signature}`} className="text-[#64748B] text-sm underline hover:text-[#67768c8c]" target="_blank">view on explorer</Link>
+                                {/* <Link href={`https://explorer.solana.com/tx/${signature}`} className="text-[#64748B] text-sm underline hover:text-[#67768c8c]" target="_blank">view on explorer</Link> */}
+                                <Link href={`https://solscan.io/tx/${signature}?cluster=devnet`} className="text-[#64748B] text-sm underline hover:text-[#67768c8c]" target="_blank">View On Solscan</Link>
+
                                 <div onClick={() => setSignature("")} className="text-sm ml-2 text-[#64748B] cursor-pointer font-bold  hover:text-[#67768c8c]">X</div>
                             </div>
                         </div>
                     )}
                     <div>
-                        <h1 className=' text-[35px] text-[#64748B] font-bold'>Burn Solana SPL or LP Tokens</h1>
+                        <h1 className=' text-[35px] text-[#64748B] font-bold'>Burn any token on Solana!</h1>
                         <form
                             className="items-center flex flex-col w-full space-y-3 mt-5 mb-8 max-w-[400px] mx-auto  p-8 ring-1 ring-black/5 bg-white/20 shadow-2xl "
                             onSubmit={handleSubmit(onSubmit)}
@@ -220,7 +215,6 @@ function burntoken() {
                             <BiReset className='text-white text-2xl cursor-pointer' onClick={handleResetDecimal} />
                         </div>
                     </div> */}
-                            {/* < BurnSPLView /> */}
                             <div className="mb-auto text-center  w-full">
                                 {!wallet.publicKey && (
 
@@ -229,14 +223,6 @@ function burntoken() {
                                     </div>
 
                                 )}
-                                {/* {signature && (<div className="flex flex-col justify-center items-center w-full">
-                            <p className="text-lg text-[#64748B] ">
-                                Transaction Success
-                            </p>
-                            <Link href={`https://solscan.io/tx/${signature}?cluster=devnet`} style={{ border: "1px solid black", color: 'black', padding: '4px 16px', borderRadius: 16, marginRight: 50 }} target="_blank">View On Solscan</Link>
-                            <Box onClick={() => setSignature('')} style={{ cursor: 'pointer', border: "1px solid white", color: 'white', padding: '8px 16px', borderRadius: 16, position: 'absolute', right: 0 }}>X</Box>
-                        </div>)} */}
-
                                 {!isFetched && wallet.publicKey && (
                                     <div className=" w-full flex justify-center ">
                                         <Loader color={"#64748B"} className="mx-2 circle  " />
@@ -262,8 +248,9 @@ function burntoken() {
                                                     >
                                                         <option value="" disabled>Select a Token</option>
                                                         {userSPL?.map((token: any, index: number) => (
-                                                            <option key={`token_${index}`} value={token.mint}>{token.name}</option>
-                                                        ))}
+                                                            <option key={`token_${index}`} value={token.mint} className="flex justify-between">{token.name} ({token.uiAmount})</option>
+                                                        )
+                                                        )}
                                                     </select>
                                                 </div>
                                             </div>
@@ -281,9 +268,9 @@ function burntoken() {
                                         {...register('amounts', { required: "please Enter the Amount " })}
                                         type="text"
                                         placeholder="Amounts to Burn"
-                                        className='w-full h-fll border-none outline-none p-2 '
+                                        className='w-full h-fll border-none outline-none p-2'
                                     />
-                                    <div className='bg-[#64748B] text-white p-2 font-bold  h-full flex justify-center items-center'>
+                                    <div className='bg-[#64748B] text-white p-2 font-bold h-full flex justify-center items-center'>
                                         MAX
                                     </div>
                                 </div>
@@ -321,17 +308,16 @@ function burntoken() {
 
 
                         </form >
+                        <p className="text-[10px] text-[#64748B] text-center">App fee of 0.01 sol is used to buy/burn $FREN</p>
                         {/* <div className="container gradient-bg rounded-lg overflow-hidden mb-10">
-                    <Image
-                        src={stepBurn}
-                        className=" rounded-lg w-full  h-full "
-                        alt=""
-                    />
-                </div> */}
+                            <Image
+                                src={stepBurn}
+                                className=" rounded-lg w-full  h-full "
+                                alt=""
+                            />
+                            </div> */}
                     </div>
-
                 </div >
-
             </div >
         </>
 

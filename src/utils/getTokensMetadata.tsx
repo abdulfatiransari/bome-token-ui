@@ -68,7 +68,8 @@ export const getTokensMetadata = async (
           name = token.name;
         }
       }
-      return { name, logoURI, tokenAccount, mint, amount, decimal: token.decimal, tokenProgram: token.tokenProgram };
+      const uiAmount = Number(token.amount) / (1 * 10 ** (token.decimal || 0))
+      return { name, logoURI, tokenAccount, mint, amount, decimal: token.decimal, tokenProgram: token.tokenProgram, uiAmount };
     })
   );
   tokensMetadata.sort(function (a, b) {
