@@ -171,7 +171,7 @@ function burntoken() {
                 <title>FRENDS ON FIRE</title>
                 <meta name="description" content="Solana tools to help you in the solana ecosystem " />
             </Head>
-            <div className=' bg-[#F2F6FF] '>
+            <div className=' bg-[#F2F6FF] h-screen'>
                 <div className="py-2 flex justify-end items-center container">
                     <div className="flex-none">
                         <WalletMultiButton className="btn btn-ghost" />
@@ -319,7 +319,7 @@ function burntoken() {
 
 
                         </form >
-                        {/* <p className="text-[10px] text-[#64748B] text-center">App fee of 0.01 sol is used to buy/burn $FREN</p> */}
+                        <p className="text-[10px] text-[#64748B] text-center">App fee of 0.01 sol is used to buy/burn $FREN</p>
                         {/* <div className="container gradient-bg rounded-lg overflow-hidden mb-10">
                             <Image
                                 src={stepBurn}
@@ -330,7 +330,7 @@ function burntoken() {
                     </div>
                 </div >
             </div >
-            <Leaderboards />
+            {/* <Leaderboards /> */}
         </>
 
     )
