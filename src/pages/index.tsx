@@ -16,7 +16,7 @@ import { Metaplex } from "@metaplex-foundation/js";
 import { Loader } from "lucide-react";
 import Link from "next/link";
 import Head from "next/head";
-import Leaderboards from "views/BurnSPLView/LeaderBoards";
+// import Leaderboards from "views/BurnSPLView/LeaderBoards";
 
 function burntoken() {
     const { connection } = useConnection();
