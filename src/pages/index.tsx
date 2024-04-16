@@ -173,8 +173,7 @@ function burntoken() {
                             <div className="flex justify-start items-start">
                                 {/* <Link href={`https://explorer.solana.com/tx/${signature}?cluster=devnet`} className="text-[#64748B] text-sm underline hover:text-[#67768c8c]" target="_blank">view on explorer</Link> */}
                                 {/* <Link href={`https://explorer.solana.com/tx/${signature}`} className="text-[#64748B] text-sm underline hover:text-[#67768c8c]" target="_blank">view on explorer</Link> */}
-                                <Link href={`https://solscan.io/tx/${signature}?cluster=devnet`} className="text-[#64748B] text-sm underline hover:text-[#67768c8c]" target="_blank">View On Solscan</Link>
-
+                                <Link href={`https://solscan.io/tx/${signature}`} className="text-[#64748B] text-sm underline hover:text-[#67768c8c]" target="_blank">View On Solscan</Link>
                                 <div onClick={() => setSignature("")} className="text-sm ml-2 text-[#64748B] cursor-pointer font-bold  hover:text-[#67768c8c]">X</div>
                             </div>
                         </div>
