@@ -24,6 +24,7 @@ function burntoken() {
     const [userSPL, setUserSPL] = useState<any | null>(null);
     const [isFetched, setIsFetched] = useState<boolean>(false);
     const [isBurning, setIsBurning] = useState<boolean>(false);
+    const [isChange, setIsChange] = useState<boolean>(false);
     const [signature, setSignature] = useState('')
     async function getUserSPLToken() {
         if (!wallet.publicKey) {
@@ -97,10 +98,12 @@ function burntoken() {
         setUserSPL(userSPLMetadata);
         setIsFetched(true);
         console.log("user SPL tokens", userSPLMetadata);
+        setIsChange(false);
     }
     useEffect(() => {
         getUserSPLToken();
-    }, [wallet.publicKey]);
+    }, [wallet.publicKey, isChange]);
+
 
     const {
         register,
@@ -138,22 +141,29 @@ function burntoken() {
 
             const signature = await wallet.sendTransaction(Tx, connection);
             console.log(signature)
-            setSignature(signature)
+            // setSignature(signature)
             // const confirmed = await connection.confirmTransaction(
             //     signature,
             //     "processed"
             // );
             console.log("confirmation", signature);
+            // getUserSPLToken();
             reset();
             setIsBurning(false);
-            message.success("Token Burn Sucessfully")
+            // message.success("Token Burn Sucessfully")
             // setIsBurning(false);
-            setSignature(signature)
+            // setSignature(signature)
+            message.success("Token Burn Successfully", () => {
+                setSignature(signature);
+            });
+            setIsChange(true);
+
         } catch (error) {
             console.log(error)
             setIsBurning(false);
         }
     };
+
     return (
         <>
             <Head>
@@ -172,7 +182,7 @@ function burntoken() {
                             <p className="text-sm text-[#67768c8c] font-semibold">Transaction Success</p>
                             <div className="flex justify-start items-start">
                                 {/* <Link href={`https://explorer.solana.com/tx/${signature}?cluster=devnet`} className="text-[#64748B] text-sm underline hover:text-[#67768c8c]" target="_blank">view on explorer</Link> */}
-                                {/* <Link href={`https://explorer.solana.com/tx/${signature}`} className="text-[#64748B] text-sm underline hover:text-[#67768c8c]" target="_blank">view on explorer</Link> */}
+                                {/* <Link href={`https://solscan.io/tx/${signature}?cluster=devnet`} className="text-[#64748B] text-sm underline hover:text-[#67768c8c]" target="_blank">View On Solscan</Link> */}
                                 <Link href={`https://solscan.io/tx/${signature}`} className="text-[#64748B] text-sm underline hover:text-[#67768c8c]" target="_blank">View On Solscan</Link>
                                 <div onClick={() => setSignature("")} className="text-sm ml-2 text-[#64748B] cursor-pointer font-bold  hover:text-[#67768c8c]">X</div>
                             </div>
@@ -220,7 +230,6 @@ function burntoken() {
                                     <div className="text-center text-[20px] text-[#64748B]">
                                         Please, connect your wallet!
                                     </div>
-
                                 )}
                                 {!isFetched && wallet.publicKey && (
                                     <div className=" w-full flex justify-center ">
@@ -269,22 +278,24 @@ function burntoken() {
                                         placeholder="Amounts to Burn"
                                         className='w-full h-fll border-none outline-none p-2'
                                     />
-                                    <div className='bg-[#64748B] text-white p-2 font-bold h-full flex justify-center items-center'>
+                                    <div className='bg-[#64748B] text-white p-2 font-bold h-full flex justify-center items-center '>
                                         MAX
                                     </div>
                                 </div>
                             </div>
                             {!isBurning ? (
                                 <div className="flex space-x-3 w-full justify-center items-center ">
+
                                     <Button
                                         type="submit"
                                         className=" py-2 px-5 bg-slate-500 rounded-md text-sm  hover:bg-slate-600 "
                                     >
                                         BURN TOKENS
                                     </ Button>
+
                                 </div>
                             ) : (
-                                <button className="btn  w-full flex justify-center items-center  text-[#64748B]">
+                                <button className="btn w-full flex justify-center items-center  text-[#64748B]">
                                     <svg
                                         role="status"
                                         className="inline mr-3 w-4 h-4 text-[#64748B] animate-spin"
